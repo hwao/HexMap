@@ -1,6 +1,10 @@
-class MapGenerator {
-    constructor(size) {
-        this.size = size;
+import {Point} from "../MapGeometry/Point";
+import {Map} from "../Map/Map";
+import {MapHex} from "../Map/MapHex";
+import p5 from "p5";
+
+export class MapCreator {
+    constructor(public size: Point, public p: p5) {
     }
 
     generate() {
@@ -8,11 +12,11 @@ class MapGenerator {
 
         // #8dc341
 
-        let worldmap = new Map(this.size);
+        const worldmap = new Map(this.size);
 
         for (let x = 0; x < this.size.x; x++) {
             for (let y = 0; y < this.size.y; y++) {
-                var mapHex = new MapHex(x, y);
+                const mapHex = new MapHex(x, y);
 
                 //
 
@@ -20,13 +24,13 @@ class MapGenerator {
                 // mapHex.color = colors[key];
 
                 // let noiseVal = p.noise(mapHex.q/10, mapHex.r/10, mapHex.s/10);
-                let noiseVal = p.noise(mapHex.q/5, mapHex.r/5 ); //, mapHex.s/10);
+                let noiseVal = this.p.noise(mapHex.q / 5, mapHex.r / 5); //, mapHex.s/10);
 
-                if( noiseVal > 0.4 ){
+                if (noiseVal > 0.4) {
                     noiseVal = 1;
                 }
 
-                mapHex.color = noiseVal == 1 ? '#8dc341' : [0,0,0,0];
+                mapHex.color = noiseVal == 1 ? '#8dc341' : 'transparent'; // [0, 0, 0, 0];
 
                 worldmap.insert(mapHex);
             }
@@ -34,8 +38,9 @@ class MapGenerator {
 
         return worldmap;
     }
+
     generateColor() {
-        let colors = [
+        const colors = [
             '#469597',
             '#5BA199',
             '#BBC6C8',
@@ -43,7 +48,7 @@ class MapGenerator {
             '#DDBEAA',
         ];
 
-        colors = [
+        const colors2 = [
             '#f0cb16',
             '#eb2827',
             '#1d347e',
@@ -51,7 +56,7 @@ class MapGenerator {
             '#008d3d',
         ];
 
-        colors = [
+        const colors3 = [
             'transparent',
             // '#f2f2f4',
             '#fcd100',
@@ -63,13 +68,13 @@ class MapGenerator {
             '#009ed8',
         ];
 
-        p.noiseSeed(99);
+        this.p.noiseSeed(99);
 
-        let worldmap = new Map(this.size);
+        const worldmap = new Map(this.size);
 
         for (let x = 0; x < this.size.x; x++) {
             for (let y = 0; y < this.size.y; y++) {
-                var mapHex = new MapHex(x, y);
+                const mapHex = new MapHex(x, y);
 
                 //mapHex.color = colors[Math.floor(Math.random() * colors.length)];
 
